@@ -1,13 +1,19 @@
+
 name: CD Practice
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Laravel Automated Tests"]
+    types:
+      - completed
     branches:
       - main
+
   workflow_dispatch:
 
 jobs:
   deploy-practice:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
